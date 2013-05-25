@@ -10,6 +10,7 @@
   'use strict';
 
   $.fn.highlightable = function() {
+    var $elem = $(this);
 
     // class name of the highlightable wrapper
     var highlightable = "js-highlightable";
@@ -19,12 +20,11 @@
     var clickColor = "rgb(255, 0, 0)";  // red
 
     this.each(function(){
-      var self = this;
-      var $self = $(self);
+      var $self = $(this);
       $self.html($self.text().replace(reg, wrapper));
     });
 
-    $('.' + highlightable).hover(
+    $('.' + highlightable, $elem).hover(
       function () {
         var $self = $(this);
         if($self.css('background-color') != clickColor){
@@ -39,7 +39,7 @@
       }
     );
 
-    $('.' + highlightable).click(
+    $('.' + highlightable, $elem).click(
       function () {
         var cssClass = "js-highlighted";
         var $self = $(this);
