@@ -2,7 +2,7 @@
   "name": "highlightable",
   "repo": "sunliwen/highlightable",
   "description": "Highlightable is a jQuery plugin for making text highlightable.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": ["jquery", "text", "highlight", "highlightable", "hover", "click", "selection"],
   "license": "MIT",
   "main": "highlightable.js",
