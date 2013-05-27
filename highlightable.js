@@ -13,18 +13,21 @@
     var $elem = $(this);
 
     // class name of the highlightable wrapper
-    var highlightable = "js-highlightable";
+    var jsHighlightable = "js-highlightable";
+    var jsHighlighted = "js-highlighted";
+    var jsHovered = "js-hovered";
+
     var reg = /\b(\w+)\b/g;
-    var wrapper = "<span class='" + highlightable + "'>$1</span>";
-    var color = "rgb(255, 255, 102)";  // yellow
-    var clickColor = "rgb(255, 0, 0)";  // red
+    var wrapper = "<span class='" + jsHighlightable + "'>$1</span>";
+    var color = "rgb(255, 242, 168)";  // yellow
+    var clickColor = "rgb(168, 209, 255)";  // blue
 
     this.each(function(){
       var $self = $(this);
       $self.html($self.text().replace(reg, wrapper));
     });
 
-    $('.' + highlightable, $elem).hover(
+    $('.' + jsHighlightable, $elem).hover(
       function () {
         var $self = $(this);
         if($self.css('background-color') != clickColor){
@@ -39,30 +42,38 @@
       }
     );
 
-    $('.' + highlightable, $elem).click(
+    $('.' + jsHighlightable, $elem).click(
       function () {
-        var cssClass = "js-highlighted";
         var $self = $(this);
 
         // if click an element already highlighted, de-highlight it
-        if($self.hasClass(cssClass)) {
+        if($self.hasClass(jsHighlighted)) {
           $self.css('background-color', '');
-          $self.removeClass("js-highlighted");
+          $self.removeClass(jsHighlighted);
         } else {
-          var highlighteds = $(".js-highlighted");
+          var highlighteds = $("." + jsHighlighted);
           var prev = $($self.prev()[0]);
           var next = $($self.next()[0]);
 
           if(next.text() != $(highlighteds[0]).text() && prev.text() != $(highlighteds[highlighteds.length-1]).text()){
             highlighteds.each(function() {
               $(this).css('background-color', '');
-              $(this).removeClass("js-highlighted");
+              $(this).removeClass(jsHighlighted);
             });
           }
 
           $self.css('background-color', clickColor);
-          $self.addClass("js-highlighted");
+          $self.addClass(jsHighlighted);
         }
+
+        // send highlighted event
+        var event = $.Event("highlighted");
+        var words = [];
+        $("." + jsHighlighted, $elem).each(function() {
+          words.push($(this).text());
+        })
+        event.words = words;
+        $elem.trigger(event);
       }
     );
 
